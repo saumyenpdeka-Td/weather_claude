@@ -4,7 +4,7 @@
   "ticket_url": null,
   "title": "Weather App User can search for a location by city name so that they can view its current weather conditions",
   "current_owner": "developer",
-  "current_state": "In Progress",
+  "current_state": "Blocked",
   "milestones": [
     {
       "agent": "coordinator",
@@ -18,10 +18,24 @@
       "state": "In Progress",
       "timestamp": "2026-07-27T15:36:00Z",
       "action": "self-planned",
-      "notes": "Self-planned 6 components (geocodingClient, validateQuery, useLocationSearch, ActiveLocationContext, LocationSearch, LocationResultsList) against Open-Meteo (human-confirmed Weather Provider choice — no API key needed). AC-3 scoped, with human confirmation, to 'sets active Location only' — conditions fetch/display deferred to WEATHER-3. Requirements ledger created with 7 rows, all pending."
+      "notes": "Self-planned 6 components against Open-Meteo (human-confirmed Weather Provider — no API key needed). AC-3 scoped, with human confirmation, to 'sets active Location only'. Requirements ledger created, 7 rows pending."
+    },
+    {
+      "agent": "developer",
+      "state": "In Progress",
+      "timestamp": "2026-07-27T16:00:00Z",
+      "action": "implementation-complete",
+      "notes": "All 6 components built via TDD (geocodingClient, validateQuery, ActiveLocationContext, useLocationSearch, LocationResultsList, LocationSearch). 28/28 tests green, 100% coverage, lint/type-check/format clean, no dead code. Ledger fully resolved: 7/7 done. Committed to dev/WEATHER-2-location-search (commit f83fb2d)."
+    },
+    {
+      "agent": "developer",
+      "state": "Blocked",
+      "timestamp": "2026-07-27T16:01:00Z",
+      "action": "pr-blocked-no-remote",
+      "notes": "Cannot open a PR: PROJECT.md.repo_url is still 'TBD — repo not yet created', no git remote is configured, and gh CLI isn't installed in this environment. Human chose (2026-07-27) to leave the branch local for now rather than provision a repo mid-session. Code is complete and ready — this is a hosting gap, not unfinished work."
     }
   ],
-  "blocked": false,
-  "blocked_reason": null,
-  "next_step": "Bootstrap the React+Vite+Vitest project (none exists yet), then TDD loop through the 6 planned components in dependency order: geocodingClient, validateQuery, ActiveLocationContext, useLocationSearch, LocationResultsList, LocationSearch."
+  "blocked": true,
+  "blocked_reason": "No GitHub (or other) remote configured for weather_app and no gh CLI available — cannot open a PR. All 7 acceptance criteria are implemented, tested (28/28 green, 100% coverage), and committed locally on dev/WEATHER-2-location-search.",
+  "next_step": "Once a remote repo exists: set PROJECT.md.repo_url, add the git remote, push dev/WEATHER-2-location-search, open a PR titled 'feat(location-search): implement WEATHER-2' with the component manifest below, transition to In Review, and complete handoff-write. No further implementation work is needed — this is purely a hosting/PR step."
 }
