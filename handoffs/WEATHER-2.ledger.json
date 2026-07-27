@@ -1,0 +1,79 @@
+{
+  "task_id": "WEATHER-2",
+  "source": "coordinator",
+  "created_at": "2026-07-27T15:36:00Z",
+  "updated_at": "2026-07-27T15:57:00Z",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Given a city name is entered and submitted, a list of matching Location results is shown (AC-1).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["geocodingClient", "useLocationSearch", "LocationSearch"],
+      "test_refs": ["geocodingClient.test.ts::returns matching Location results for a valid query", "useLocationSearch.test.ts::shows results for a valid query (AC-1)", "LocationSearch.test.tsx::shows results with disambiguation for a valid query (AC-1, AC-2)"],
+      "notes": "",
+      "last_updated": "2026-07-27T15:57:00Z"
+    },
+    {
+      "id": "REQ-2",
+      "text": "When a query matches Locations in more than one country, each result shows disambiguating region/country info (AC-2).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["geocodingClient", "LocationResultsList"],
+      "test_refs": ["geocodingClient.test.ts::includes disambiguating region/country info when multiple countries match", "LocationResultsList.test.tsx::shows disambiguating region/country info for each result (AC-2, AC-7)"],
+      "notes": "",
+      "last_updated": "2026-07-27T15:55:00Z"
+    },
+    {
+      "id": "REQ-3",
+      "text": "When the user selects one Location, it becomes the active Location (AC-3).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["ActiveLocationContext", "LocationResultsList", "LocationSearch"],
+      "test_refs": ["ActiveLocationContext.test.tsx::makes the selected Location the active Location (AC-3)", "LocationResultsList.test.tsx::calls onSelect with the chosen Location when clicked (AC-3)", "LocationSearch.test.tsx::makes the selected result the active Location (AC-3)"],
+      "notes": "Scoped per human decision 2026-07-27: WEATHER-2 sets the active Location in shared state only; the current-conditions fetch/display for that Location is WEATHER-3's component (declared dependency), not duplicated here.",
+      "last_updated": "2026-07-27T15:57:00Z"
+    },
+    {
+      "id": "REQ-4",
+      "text": "When a query matches no Location, a clear \"no results\" message is shown, not an error page (AC-4).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["geocodingClient", "useLocationSearch", "LocationSearch"],
+      "test_refs": ["geocodingClient.test.ts::returns an empty array when no Location matches the query", "useLocationSearch.test.ts::shows no-results when the Weather Provider finds nothing (AC-4)", "LocationSearch.test.tsx::shows a no-results message for a query with no matches (AC-4)"],
+      "notes": "",
+      "last_updated": "2026-07-27T15:57:00Z"
+    },
+    {
+      "id": "REQ-5",
+      "text": "When the Weather Provider is unreachable and the search request fails, a distinct error message is shown with a retry option (AC-5).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["geocodingClient", "useLocationSearch", "LocationSearch"],
+      "test_refs": ["geocodingClient.test.ts::throws WeatherProviderUnreachableError when the network request fails", "geocodingClient.test.ts::throws WeatherProviderUnreachableError when the provider returns a non-OK response", "useLocationSearch.test.ts::shows error on Weather Provider failure and recovers via retry (AC-5)", "LocationSearch.test.tsx::shows an error with retry, and recovers when retried (AC-5)"],
+      "notes": "",
+      "last_updated": "2026-07-27T15:57:00Z"
+    },
+    {
+      "id": "REQ-6",
+      "text": "When the query is blank or under 2 characters and submitted, a \"query too short\" message is shown and no search runs (AC-6).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["validateQuery", "useLocationSearch", "LocationSearch"],
+      "test_refs": ["validateQuery.test.ts::is invalid for an empty query", "validateQuery.test.ts::is invalid for a query under 2 characters", "validateQuery.test.ts::treats a whitespace-only query as too short", "useLocationSearch.test.ts::shows too-short without calling the Weather Provider (AC-6)", "LocationSearch.test.tsx::shows a too-short message and does not call the Weather Provider (AC-6)"],
+      "notes": "",
+      "last_updated": "2026-07-27T15:57:00Z"
+    },
+    {
+      "id": "REQ-7",
+      "text": "When a query matches Locations in multiple countries worldwide, all matches are returned regardless of country (AC-7).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["geocodingClient"],
+      "test_refs": ["geocodingClient.test.ts::returns matches across multiple countries worldwide without filtering to one"],
+      "notes": "",
+      "last_updated": "2026-07-27T15:48:00Z"
+    }
+  ],
+  "coverage_summary": { "total": 7, "done": 7, "descoped": 0, "outstanding": 0 }
+}

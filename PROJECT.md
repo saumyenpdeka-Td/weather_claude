@@ -62,10 +62,10 @@ component_size_target: 50
 coverage_target: 85
 
 # === Tooling commands (the blessed entrypoints; agents must use these) ===
-lint_command:                 # TBD — set once repo scaffolded
-format_command:
-test_command:
-security_scan_command:
+lint_command: npm run lint
+format_command: npm run format
+test_command: npm run test:coverage
+security_scan_command:         # TBD — set when Security Scanner agent onboards this project
 
 # === Environments / connectivity ===
 environments: []               # no cloud/data-platform connectivity needed for MVP

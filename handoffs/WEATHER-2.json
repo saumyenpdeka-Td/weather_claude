@@ -1,0 +1,27 @@
+{
+  "task_id": "WEATHER-2",
+  "ticket_key": "WEATHER-2",
+  "ticket_url": null,
+  "title": "Weather App User can search for a location by city name so that they can view its current weather conditions",
+  "current_owner": "developer",
+  "current_state": "In Progress",
+  "milestones": [
+    {
+      "agent": "coordinator",
+      "state": "Ready for Dev",
+      "timestamp": "2026-07-27T13:49:07Z",
+      "action": "story-decomposed",
+      "notes": "Handoff comment posted on Plane WEATHER-2 (project's Plane states not yet customized to the AIDLC state machine, so the ticket itself still shows stock 'Todo'/unassigned — Plane comment is the actual signal). 7 testable AC, size M."
+    },
+    {
+      "agent": "developer",
+      "state": "In Progress",
+      "timestamp": "2026-07-27T15:36:00Z",
+      "action": "self-planned",
+      "notes": "Self-planned 6 components (geocodingClient, validateQuery, useLocationSearch, ActiveLocationContext, LocationSearch, LocationResultsList) against Open-Meteo (human-confirmed Weather Provider choice — no API key needed). AC-3 scoped, with human confirmation, to 'sets active Location only' — conditions fetch/display deferred to WEATHER-3. Requirements ledger created with 7 rows, all pending."
+    }
+  ],
+  "blocked": false,
+  "blocked_reason": null,
+  "next_step": "Bootstrap the React+Vite+Vitest project (none exists yet), then TDD loop through the 6 planned components in dependency order: geocodingClient, validateQuery, ActiveLocationContext, useLocationSearch, LocationResultsList, LocationSearch."
+}
