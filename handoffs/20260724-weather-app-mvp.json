@@ -1,0 +1,27 @@
+{
+  "task_id": "20260724-weather-app-mvp",
+  "ticket_key": "WEATHER-1",
+  "ticket_url": null,
+  "title": "Weather App User can view real-time current weather conditions worldwide",
+  "current_owner": "coordinator",
+  "current_state": "Ready for Planning",
+  "milestones": [
+    {
+      "agent": "analyst",
+      "state": "Ready for Planning",
+      "timestamp": "2026-07-24T00:00:00Z",
+      "action": "requirement-structured",
+      "notes": "Structured raw requirement 'simple weather app fetching real-time updates worldwide' into 1 Feature / 4 Stories with AC and estimates. Plane MCP was degraded this session (get_me succeeded, all workspace-scoped calls 404'd) — this manifest was the fallback record per ticketing.md's Plane exception. No Plane ticket existed yet at this point."
+    },
+    {
+      "agent": "analyst",
+      "state": "Ready for Planning",
+      "timestamp": "2026-07-27T09:55:00Z",
+      "action": "plane-tickets-created",
+      "notes": "Plane connectivity fixed (root cause: plane-mcp-server >=v0.2.10 vs self-hosted Plane v1.3.1 version mismatch on the lightweight/paginated endpoints; workaround pins plane-mcp-server to v0.2.9 in infra/plane/.env). Created Plane project 'Weather App' (WEATHER, id e4ddcfec-1ddb-4799-b8ec-c768d6d3eae6) and 5 work items: WEATHER-1 (Feature, id 3fb37b12-8c7b-43a3-9cdb-f9bf53ada95d) with 4 child Stories WEATHER-2..5 (ids 61263a9e, d138cd8e, 7713f9ab, f6920b3b), each carrying full Gherkin AC and estimate in its description. Plane is now primary source of truth per ticketing.md's Plane exception; this manifest remains the fallback record. PROJECT.md updated with project_id/master_work_item_id."
+    }
+  ],
+  "blocked": false,
+  "blocked_reason": null,
+  "next_step": "Coordinator: read WEATHER-1..5 in Plane (project e4ddcfec-1ddb-4799-b8ec-c768d6d3eae6), validate the 4 stories, confirm the open ambiguities (refresh interval default, forecast-vs-current-only scope, default units) with the requester, then size and transition to Ready for Dev."
+}
