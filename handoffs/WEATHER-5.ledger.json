@@ -1,0 +1,79 @@
+{
+  "task_id": "WEATHER-5",
+  "source": "coordinator",
+  "created_at": "2026-07-28T15:23:00Z",
+  "updated_at": "2026-07-28T15:44:00Z",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "No-data / location-not-found shows its own distinct message with retry option (AC-1).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["weatherClient", "classifyFailure", "loadConditions", "useCurrentConditions", "failureMessages", "CurrentConditionsCard", "CurrentConditionsContainer"],
+      "test_refs": ["weatherClient.test.ts::throws NoDataError when the response is OK but has no current conditions (AC-1)", "failureMessages.test.ts::gives a distinct message for no-data (AC-1)", "CurrentConditionsCard.test.tsx::shows a distinct no-data message with retry available (AC-1)"],
+      "notes": "",
+      "last_updated": "2026-07-28T15:44:00Z"
+    },
+    {
+      "id": "REQ-2",
+      "text": "Weather Provider unreachable shows a distinct \"provider unreachable\" message with retry option (AC-2).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["weatherClient", "classifyFailure", "loadConditions", "useCurrentConditions", "failureMessages", "CurrentConditionsCard", "CurrentConditionsContainer"],
+      "test_refs": ["weatherClient.test.ts::throws ProviderUnreachableError on a non-OK response with no explicit error body (AC-2)", "failureMessages.test.ts::gives a distinct message for provider-unreachable (AC-2)", "CurrentConditionsCard.test.tsx::shows a distinct provider-unreachable message (AC-2)", "CurrentConditionsCard.test.tsx::wires the manual refresh control through to onRefresh (AC-2)"],
+      "notes": "",
+      "last_updated": "2026-07-28T15:44:00Z"
+    },
+    {
+      "id": "REQ-3",
+      "text": "Weather Provider explicit error response shows a distinct \"provider error\" message with retry option (AC-3).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["weatherClient", "classifyFailure", "loadConditions", "useCurrentConditions", "failureMessages", "CurrentConditionsCard", "CurrentConditionsContainer"],
+      "test_refs": ["weatherClient.test.ts::throws ProviderError on a non-OK response carrying an explicit provider error (AC-3)", "failureMessages.test.ts::gives a distinct message for provider-error (AC-3)", "CurrentConditionsCard.test.tsx::shows a distinct provider-error message (AC-3)"],
+      "notes": "",
+      "last_updated": "2026-07-28T15:44:00Z"
+    },
+    {
+      "id": "REQ-4",
+      "text": "Device network connectivity failure shows a distinct \"network error\" message with retry option (AC-4).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["weatherClient", "classifyFailure", "loadConditions", "useCurrentConditions", "failureMessages", "CurrentConditionsCard", "CurrentConditionsContainer"],
+      "test_refs": ["weatherClient.test.ts::throws NetworkError when the device can't reach the network at all (AC-4)", "failureMessages.test.ts::gives a distinct message for network-error (AC-4)", "CurrentConditionsCard.test.tsx::shows a distinct network-error message (AC-4)", "CurrentConditionsContainer.test.tsx::shows a distinct failure message when the fetch fails (AC-1..4)"],
+      "notes": "",
+      "last_updated": "2026-07-28T15:44:00Z"
+    },
+    {
+      "id": "REQ-5",
+      "text": "Successful manual retry replaces the failure message with live Current Conditions (AC-5).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::clears the failure on a successful manual retry (AC-5)"],
+      "notes": "",
+      "last_updated": "2026-07-28T15:38:00Z"
+    },
+    {
+      "id": "REQ-6",
+      "text": "Failed manual retry shows the (possibly different) failure-type message, retry still available (AC-6).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::shows the new failure type when a manual retry fails differently (AC-6)"],
+      "notes": "",
+      "last_updated": "2026-07-28T15:38:00Z"
+    },
+    {
+      "id": "REQ-7",
+      "text": "The staleness indicator and a failure message are never shown at the same time — mutually exclusive states (AC-7).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions", "CurrentConditionsCard"],
+      "test_refs": ["useCurrentConditions.test.ts::never sets a failureType when a refresh fails but prior good data exists (AC-7 mutual exclusivity)", "CurrentConditionsCard.test.tsx::never shows a stale badge or live dot alongside a failure message (AC-7 mutual exclusivity)", "CurrentConditionsCard.test.tsx::shows a stale stamp badge alongside the original timestamp when data is stale, never a failure message (AC-6, AC-7)"],
+      "notes": "Confirmed both structurally (hook) and via UI rendering tests.",
+      "last_updated": "2026-07-28T15:44:00Z"
+    }
+  ],
+  "coverage_summary": { "total": 7, "done": 7, "descoped": 0, "outstanding": 0 }
+}

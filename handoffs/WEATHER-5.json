@@ -1,0 +1,27 @@
+{
+  "task_id": "WEATHER-5",
+  "ticket_key": "WEATHER-5",
+  "ticket_url": null,
+  "title": "Weather App User can see a clear message when weather data can't be shown so that they understand why and what to do next",
+  "current_owner": "developer",
+  "current_state": "In Progress",
+  "milestones": [
+    {
+      "agent": "coordinator",
+      "state": "Ready for Dev",
+      "timestamp": "2026-07-27T13:49:20Z",
+      "action": "story-decomposed",
+      "notes": "Handoff comment posted on Plane WEATHER-5. 7 testable AC, size M. Depends on WEATHER-3; mutually exclusive with staleness by design."
+    },
+    {
+      "agent": "developer",
+      "state": "In Progress",
+      "timestamp": "2026-07-28T15:23:00Z",
+      "action": "self-planned",
+      "notes": "Plan: split weatherClient's single generic error into 4 typed errors (NetworkError, ProviderUnreachableError, ProviderError, NoDataError); useCurrentConditions exposes a failureType alongside status; CurrentConditionsCard renders 4 distinct messages, reusing WEATHER-4's existing retry (refresh()/NEW OBS) — no new retry mechanism needed. Mutual exclusivity with staleness is already structural (failure only when no data exists at all); will verify with an explicit test rather than assume. Ledger created, 7 rows pending."
+    }
+  ],
+  "blocked": false,
+  "blocked_reason": null,
+  "next_step": "TDD loop: weatherClient.ts (typed errors), useCurrentConditions.ts (failureType), CurrentConditionsCard.tsx (4 distinct messages)."
+}

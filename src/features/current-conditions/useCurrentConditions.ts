@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchCurrentConditions, type CurrentConditionsRaw } from "./api/weatherClient";
+import { loadConditions } from "./loadConditions";
 import { toDisplayUnits, type DisplayConditions, type UnitsSystem } from "./unitsConversion";
+import type { CurrentConditionsRaw } from "./api/weatherClient";
+import type { FailureType } from "./classifyFailure";
 import type { LocationMatch } from "../location-search/api/geocodingClient";
 
 // COMPONENT-SIZE-JUSTIFICATION: fetch/refresh lifecycle, request sequencing,
@@ -16,6 +18,7 @@ export type ConditionsStatus = "loading" | "unavailable" | "ready";
 interface UseCurrentConditionsResult {
   status: ConditionsStatus;
   display: DisplayConditions | null;
+  failureType: FailureType | null;
   fetchedAt: number | null;
   isStale: boolean;
   unitsSystem: UnitsSystem;
@@ -24,16 +27,17 @@ interface UseCurrentConditionsResult {
 }
 
 /**
- * Fetches/refreshes current conditions on a fixed interval, always in
- * metric. A failure never blanks a prior success. `refresh()` triggers an
- * out-of-cycle fetch; every fetch carries a request id, and only the most
- * recently issued one's result is ever applied, so overlapping requests
- * (auto tick + manual refresh) can't race. Switching Locations resets
- * `raw`/`status` synchronously so stale data never renders under a new one.
+ * Fetches/refreshes current conditions on a fixed interval, always metric.
+ * A failure never blanks a prior success — shown as staleness, not a
+ * failure message (`failureType` is only ever set when `raw` is null).
+ * `refresh()` triggers an out-of-cycle fetch; each fetch carries a request
+ * id so only the most recent result applies, preventing races. Switching
+ * Locations resets `raw`/`status` synchronously.
  */
 export function useCurrentConditions(location: LocationMatch | null): UseCurrentConditionsResult {
   const [raw, setRaw] = useState<CurrentConditionsRaw | null>(null);
   const [status, setStatus] = useState<ConditionsStatus>("loading");
+  const [failureType, setFailureType] = useState<FailureType | null>(null);
   const [unitsSystem, setUnitsSystem] = useState<UnitsSystem>("metric");
   const [now, setNow] = useState(() => Date.now());
   const rawRef = useRef<CurrentConditionsRaw | null>(null);
@@ -46,16 +50,18 @@ export function useCurrentConditions(location: LocationMatch | null): UseCurrent
 
   const load = useCallback(async (loc: LocationMatch) => {
     const requestId = ++requestIdRef.current;
-    try {
-      const result = await fetchCurrentConditions(loc.latitude, loc.longitude);
-      if (requestIdRef.current === requestId) {
-        setRaw(result);
-        setStatus("ready");
-      }
-    } catch {
-      if (requestIdRef.current === requestId) {
-        setStatus(rawRef.current ? "ready" : "unavailable");
-      }
+    const result = await loadConditions(loc);
+    if (requestIdRef.current !== requestId) return;
+
+    if (result.ok) {
+      setRaw(result.raw);
+      setStatus("ready");
+      setFailureType(null);
+    } else if (rawRef.current) {
+      setStatus("ready");
+    } else {
+      setStatus("unavailable");
+      setFailureType(result.failureType);
     }
   }, []);
 
@@ -64,6 +70,7 @@ export function useCurrentConditions(location: LocationMatch | null): UseCurrent
     if (!location) return;
     setRaw(null);
     setStatus("loading");
+    setFailureType(null);
     void load(location);
     const intervalId = setInterval(() => void load(location), REFRESH_INTERVAL_MS);
     return () => clearInterval(intervalId);
@@ -81,6 +88,7 @@ export function useCurrentConditions(location: LocationMatch | null): UseCurrent
   return {
     status,
     display: raw ? toDisplayUnits(raw, unitsSystem) : null,
+    failureType,
     fetchedAt: raw?.fetchedAt ?? null,
     isStale: raw ? now - raw.fetchedAt > STALE_THRESHOLD_MS : false,
     unitsSystem,

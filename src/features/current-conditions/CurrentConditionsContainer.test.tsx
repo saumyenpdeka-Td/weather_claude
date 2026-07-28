@@ -96,4 +96,20 @@ describe("CurrentConditionsContainer", () => {
 
     expect(fetchSpy.mock.calls.length).toBeGreaterThan(callCountBefore);
   });
+
+  it("shows a distinct failure message when the fetch fails (AC-1..4)", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
+    render(
+      <ActiveLocationProvider>
+        <Selector location={paris} />
+        <CurrentConditionsContainer />
+      </ActiveLocationProvider>,
+    );
+
+    await act(async () => {
+      screen.getByText("select").click();
+    });
+
+    expect(await screen.findByText("No network connection.")).toBeInTheDocument();
+  });
 });
