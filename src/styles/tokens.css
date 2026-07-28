@@ -1,0 +1,13 @@
+/**
+ * Design tokens for the "station observation slip" visual direction
+ * (current-conditions display). See frontend-design skill output,
+ * WEATHER-3 session, for the full rationale.
+ */
+:root {
+  --paper: #f0f3ef;
+  --ink: #1c2b2a;
+  --slate: #55707a;
+  --brass: #a9814b;
+  --amber-stamp: #b5651d;
+  --fresh-teal: #2f7d6b;
+}

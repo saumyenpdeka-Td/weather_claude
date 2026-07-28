@@ -1,0 +1,89 @@
+{
+  "task_id": "WEATHER-3",
+  "source": "coordinator",
+  "created_at": "2026-07-28T08:22:00Z",
+  "updated_at": "2026-07-28T08:39:00Z",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Happy-path display of all fields (temperature, feels-like, humidity, wind, precipitation, condition summary) in the selected Units System (AC-1).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["weatherClient", "unitsConversion", "useCurrentConditions", "weatherCodeSummary", "CurrentConditionsCard"],
+      "test_refs": ["weatherClient.test.ts::parses all fields from the Weather Provider response (AC-1)", "useCurrentConditions.test.ts::shows ready with converted display data after a successful fetch (AC-1)", "CurrentConditionsCard.test.tsx::renders all fields, timestamp, and a live indicator when fresh (AC-1, AC-2, AC-7)"],
+      "notes": "",
+      "last_updated": "2026-07-28T08:39:00Z"
+    },
+    {
+      "id": "REQ-2",
+      "text": "Last-fetch timestamp shown alongside data (AC-2).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions", "formatObservedTime", "CurrentConditionsCard"],
+      "test_refs": ["formatObservedTime.test.ts::formats an epoch timestamp as UTC HH:MMZ (AC-2)", "CurrentConditionsCard.test.tsx::renders all fields, timestamp, and a live indicator when fresh (AC-1, AC-2, AC-7)"],
+      "notes": "",
+      "last_updated": "2026-07-28T08:39:00Z"
+    },
+    {
+      "id": "REQ-3",
+      "text": "Defaults to Metric when no Units System has been chosen (AC-3).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["unitsConversion", "useCurrentConditions"],
+      "test_refs": ["unitsConversion.test.ts::returns metric values unchanged, with metric unit labels (AC-3)", "useCurrentConditions.test.ts::starts loading with no display data, defaulting to metric (AC-3)"],
+      "notes": "Metric default per business-domain.md — assumed, pending stakeholder sign-off (flagged in WEATHER-2's Coordinator handoff, not re-blocking on it here).",
+      "last_updated": "2026-07-28T08:31:00Z"
+    },
+    {
+      "id": "REQ-4",
+      "text": "First-load failure (no prior data) shows an explicit \"conditions unavailable\" state, not a blank screen (AC-4).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["weatherClient", "useCurrentConditions", "CurrentConditionsCard"],
+      "test_refs": ["weatherClient.test.ts::throws WeatherProviderUnreachableError when the network request fails (AC-4)", "useCurrentConditions.test.ts::shows unavailable on first-load failure, not a blank/loading screen forever (AC-4)", "CurrentConditionsCard.test.tsx::shows an explicit unavailable state, not a blank screen (AC-4)"],
+      "notes": "",
+      "last_updated": "2026-07-28T08:39:00Z"
+    },
+    {
+      "id": "REQ-5",
+      "text": "Failed refresh after a prior success keeps the last good Current Conditions displayed unchanged (AC-5).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::keeps the last good conditions unchanged when a later refresh fails (AC-5)"],
+      "notes": "",
+      "last_updated": "2026-07-28T08:31:00Z"
+    },
+    {
+      "id": "REQ-6",
+      "text": "Data older than 2x Refresh Interval is visibly marked \"stale\" alongside its original timestamp (AC-6).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions", "CurrentConditionsCard"],
+      "test_refs": ["useCurrentConditions.test.ts::marks data as stale once it exceeds 2x the Refresh Interval (AC-6)", "CurrentConditionsCard.test.tsx::shows a stale stamp badge alongside the original timestamp when data is stale (AC-6)"],
+      "notes": "Threshold = 20 min, derived from business-domain.md's assumed 10-min Refresh Interval default (same caveat as REQ-3).",
+      "last_updated": "2026-07-28T08:39:00Z"
+    },
+    {
+      "id": "REQ-7",
+      "text": "Data within the threshold displays without a stale marking (AC-7).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions", "CurrentConditionsCard"],
+      "test_refs": ["useCurrentConditions.test.ts::does not mark data as stale within the threshold (AC-7)", "CurrentConditionsCard.test.tsx::renders all fields, timestamp, and a live indicator when fresh (AC-1, AC-2, AC-7)"],
+      "notes": "",
+      "last_updated": "2026-07-28T08:39:00Z"
+    },
+    {
+      "id": "REQ-8",
+      "text": "Switching Units System re-renders instantly using already-fetched data, without a new Weather Provider call (AC-8).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["unitsConversion", "useCurrentConditions", "UnitsToggle", "CurrentConditionsCard"],
+      "test_refs": ["unitsConversion.test.ts::performs conversion purely from already-fetched raw data (AC-8)", "useCurrentConditions.test.ts::switches Units System instantly without calling the Weather Provider again (AC-8)", "UnitsToggle.test.tsx::calls onChange with imperial when °F is clicked (AC-8)", "CurrentConditionsCard.test.tsx::wires the Units toggle through to onUnitsChange (AC-8)"],
+      "notes": "",
+      "last_updated": "2026-07-28T08:39:00Z"
+    }
+  ],
+  "coverage_summary": { "total": 8, "done": 8, "descoped": 0, "outstanding": 0 }
+}
