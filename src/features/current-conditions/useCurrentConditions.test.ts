@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useCurrentConditions } from "./useCurrentConditions";
-import { fetchCurrentConditions } from "./api/weatherClient";
+import { fetchCurrentConditions, NetworkError, ProviderError } from "./api/weatherClient";
 import type { CurrentConditionsRaw } from "./api/weatherClient";
 import type { LocationMatch } from "../location-search/api/geocodingClient";
 
@@ -229,5 +229,70 @@ describe("useCurrentConditions", () => {
       await vi.advanceTimersByTimeAsync(0);
     });
     expect(result.current.fetchedAt).toBe(2000);
+  });
+
+  it("exposes a distinct failureType on first-load failure (AC-1..4)", async () => {
+    mockedFetch.mockRejectedValue(new NetworkError());
+    const { result } = renderHook(() => useCurrentConditions(paris));
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    expect(result.current.status).toBe("unavailable");
+    expect(result.current.failureType).toBe("network-error");
+  });
+
+  it("clears the failure on a successful manual retry (AC-5)", async () => {
+    mockedFetch.mockRejectedValueOnce(new ProviderError("bad request"));
+    const { result } = renderHook(() => useCurrentConditions(paris));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(result.current.failureType).toBe("provider-error");
+
+    mockedFetch.mockResolvedValueOnce(rawAt(Date.now()));
+    await act(async () => {
+      result.current.refresh();
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    expect(result.current.status).toBe("ready");
+    expect(result.current.failureType).toBeNull();
+  });
+
+  it("shows the new failure type when a manual retry fails differently (AC-6)", async () => {
+    mockedFetch.mockRejectedValueOnce(new NetworkError());
+    const { result } = renderHook(() => useCurrentConditions(paris));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(result.current.failureType).toBe("network-error");
+
+    mockedFetch.mockRejectedValueOnce(new ProviderError("bad request"));
+    await act(async () => {
+      result.current.refresh();
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    expect(result.current.status).toBe("unavailable");
+    expect(result.current.failureType).toBe("provider-error");
+  });
+
+  it("never sets a failureType when a refresh fails but prior good data exists (AC-7 mutual exclusivity)", async () => {
+    mockedFetch.mockResolvedValueOnce(rawAt(Date.now()));
+    const { result } = renderHook(() => useCurrentConditions(paris));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(result.current.status).toBe("ready");
+
+    mockedFetch.mockRejectedValueOnce(new NetworkError());
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(10 * 60 * 1000);
+    });
+
+    expect(result.current.status).toBe("ready");
+    expect(result.current.failureType).toBeNull();
   });
 });

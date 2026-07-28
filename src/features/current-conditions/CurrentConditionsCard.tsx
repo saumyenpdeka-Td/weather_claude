@@ -1,7 +1,9 @@
 import type { ConditionsStatus } from "./useCurrentConditions";
 import type { DisplayConditions, UnitsSystem } from "./unitsConversion";
+import type { FailureType } from "./classifyFailure";
 import { weatherCodeSummary } from "./weatherCodeSummary";
 import { formatObservedTime } from "./formatObservedTime";
+import { failureMessage } from "./failureMessages";
 import { UnitsToggle } from "./UnitsToggle";
 import styles from "./CurrentConditionsCard.module.css";
 
@@ -13,6 +15,7 @@ interface CurrentConditionsCardProps {
   locationName: string;
   status: ConditionsStatus;
   display: DisplayConditions | null;
+  failureType: FailureType | null;
   fetchedAt: number | null;
   isStale: boolean;
   unitsSystem: UnitsSystem;
@@ -25,6 +28,7 @@ export function CurrentConditionsCard({
   locationName,
   status,
   display,
+  failureType,
   fetchedAt,
   isStale,
   unitsSystem,
@@ -43,10 +47,10 @@ export function CurrentConditionsCard({
         </button>
       </div>
 
-      {status === "unavailable" && (
+      {status === "unavailable" && failureType && (
         <div className={styles.unavailable}>
           <span className={styles.stamp}>NO SIGNAL</span>
-          <p>Conditions unavailable — station not responding.</p>
+          <p>{failureMessage(failureType)}</p>
         </div>
       )}
 
