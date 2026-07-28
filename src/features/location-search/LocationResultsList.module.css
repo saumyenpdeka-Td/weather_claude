@@ -1,0 +1,28 @@
+.list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--slate);
+}
+
+.item {
+  border-bottom: 1px solid var(--slate);
+}
+
+.resultButton {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.25rem;
+  background: none;
+  border: none;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.resultButton:hover,
+.resultButton:focus-visible {
+  color: var(--brass);
+  outline: none;
+}

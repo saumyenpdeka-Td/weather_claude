@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { useLocationSearch } from "./useLocationSearch";
 import { LocationResultsList } from "./LocationResultsList";
 import { useActiveLocation } from "../../state/ActiveLocationContext";
+import styles from "./LocationSearch.module.css";
 
 /**
  * Location search: input + submit, and one message per search outcome
@@ -20,23 +21,34 @@ export function LocationSearch() {
   };
 
   return (
-    <div>
+    <div className={styles.panel}>
       <form onSubmit={handleSubmit} aria-label="Search for a location">
-        <label htmlFor="location-query">City name</label>
-        <input
-          id="location-query"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <button type="submit">Search</button>
+        <label className={styles.label} htmlFor="location-query">
+          City name
+        </label>
+        <div className={styles.row}>
+          <input
+            id="location-query"
+            className={styles.input}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <button type="submit" className={styles.button}>
+            Search
+          </button>
+        </div>
       </form>
 
-      {status === "too-short" && <p role="alert">Query too short — enter at least 2 characters.</p>}
-      {status === "no-results" && <p>No matching locations found.</p>}
+      {status === "too-short" && (
+        <p className={styles.notice} role="alert">
+          Query too short — enter at least 2 characters.
+        </p>
+      )}
+      {status === "no-results" && <p className={styles.notice}>No matching locations found.</p>}
       {status === "error" && (
-        <div role="alert">
+        <div className={styles.errorBox} role="alert">
           <p>Couldn&apos;t reach the Weather Provider.</p>
-          <button type="button" onClick={retry}>
+          <button type="button" className={styles.retryButton} onClick={retry}>
             Retry
           </button>
         </div>

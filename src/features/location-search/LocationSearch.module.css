@@ -1,0 +1,87 @@
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--slate);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--ink);
+}
+
+.label {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 0.4rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input {
+  flex: 1;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--slate);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: -2px;
+}
+
+.button {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--brass);
+}
+
+.notice {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.errorBox {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.errorBox p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--amber-stamp);
+}
+
+.retryButton {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--slate);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
