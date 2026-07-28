@@ -3,8 +3,8 @@
   "ticket_key": "WEATHER-4",
   "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/3",
   "title": "Weather App User can have weather refresh automatically at a regular interval so that they don't have to manually reload to see current conditions",
-  "current_owner": "reviewer",
-  "current_state": "In Review",
+  "current_owner": null,
+  "current_state": "Done",
   "milestones": [
     {
       "agent": "coordinator",
@@ -28,9 +28,16 @@
       "notes": "All 8 AC done: 4 already satisfied by WEATHER-3 (referenced, not re-built), 1 needed only a new test, 3 needed real fixes (refresh(), request-id race guard, location-switch reset). 64/64 tests, 100% coverage. Pushed and opened PR #3.",
       "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/3",
       "pr_number": 3
+    },
+    {
+      "agent": "human",
+      "state": "Done",
+      "timestamp": "2026-07-28T15:15:59Z",
+      "action": "approve",
+      "notes": "PR #3 merged to main. Confirmed via GitHub API (state=closed, merged=true) while this session had already moved on to WEATHER-5 (which only depends on WEATHER-3, not WEATHER-4)."
     }
   ],
   "blocked": false,
   "blocked_reason": null,
-  "next_step": "Human reviews PR #3 on GitHub. On approval/merge, transition to Done — that unblocks WEATHER-5 (failure-state messages), which also depends on WEATHER-3."
+  "next_step": "No further work — Done."
 }
