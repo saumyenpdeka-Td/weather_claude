@@ -3,8 +3,8 @@
   "ticket_key": "WEATHER-5",
   "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/4",
   "title": "Weather App User can see a clear message when weather data can't be shown so that they understand why and what to do next",
-  "current_owner": "reviewer",
-  "current_state": "In Review",
+  "current_owner": null,
+  "current_state": "Done",
   "milestones": [
     {
       "agent": "coordinator",
@@ -28,9 +28,16 @@
       "notes": "All 7 AC done. 88/88 tests, 100% coverage. Pushed and opened PR #4 — last story in the WEATHER-1 Feature.",
       "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/4",
       "pr_number": 4
+    },
+    {
+      "agent": "human",
+      "state": "Done",
+      "timestamp": "2026-07-28T15:58:00Z",
+      "action": "approve",
+      "notes": "PR #4 merged to main. Confirmed via GitHub API (state=closed, merged=true). This closes out the WEATHER-1 Feature — all 4 stories (WEATHER-2..5) now merged."
     }
   ],
   "blocked": false,
   "blocked_reason": null,
-  "next_step": "Human reviews PR #4 on GitHub. On approval/merge, transition to Done — that closes out the entire WEATHER-1 Feature (all 4 stories merged)."
+  "next_step": "No further work — Done."
 }
