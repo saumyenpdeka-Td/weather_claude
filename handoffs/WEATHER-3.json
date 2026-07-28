@@ -1,10 +1,10 @@
 {
   "task_id": "WEATHER-3",
   "ticket_key": "WEATHER-3",
-  "ticket_url": null,
+  "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/2",
   "title": "Weather App User can view real-time current weather conditions for their selected location so that they know the present conditions there",
-  "current_owner": "developer",
-  "current_state": "In Progress",
+  "current_owner": "reviewer",
+  "current_state": "In Review",
   "milestones": [
     {
       "agent": "coordinator",
@@ -19,9 +19,18 @@
       "timestamp": "2026-07-28T08:22:00Z",
       "action": "self-planned",
       "notes": "Self-planned 5 components: weatherClient (Open-Meteo current-conditions fetch, always metric), unitsConversion (pure conversion, no refetch on toggle), useCurrentConditions (staleness/last-good-data/units-default logic), CurrentConditionsCard + UnitsToggle (presentational, 'station observation slip' design direction via frontend-design skill). Requirements ledger created, 8 rows pending. Refresh Interval (10 min) and Units default (Metric) proceeding as documented assumptions from business-domain.md, per WEATHER-2 precedent."
+    },
+    {
+      "agent": "developer",
+      "state": "In Review",
+      "timestamp": "2026-07-28T08:50:00Z",
+      "action": "open-pr",
+      "notes": "All 8 AC implemented (6 planned components + weatherCodeSummary, formatObservedTime, CurrentConditionsContainer discovered during implementation). 58/58 tests, 100% coverage. Added missing src/vite-env.d.ts (Vite ambient types gap from WEATHER-2 scaffold). Pushed and opened PR #2.",
+      "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/2",
+      "pr_number": 2
     }
   ],
   "blocked": false,
   "blocked_reason": null,
-  "next_step": "TDD loop through 5 planned components in dependency order: weatherClient, unitsConversion, useCurrentConditions, UnitsToggle, CurrentConditionsCard."
+  "next_step": "Human reviews PR #2 on GitHub. On approval/merge, transition to Done."
 }
