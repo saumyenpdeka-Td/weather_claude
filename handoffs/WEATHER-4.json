@@ -1,10 +1,10 @@
 {
   "task_id": "WEATHER-4",
   "ticket_key": "WEATHER-4",
-  "ticket_url": null,
+  "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/3",
   "title": "Weather App User can have weather refresh automatically at a regular interval so that they don't have to manually reload to see current conditions",
-  "current_owner": "developer",
-  "current_state": "In Progress",
+  "current_owner": "reviewer",
+  "current_state": "In Review",
   "milestones": [
     {
       "agent": "coordinator",
@@ -19,9 +19,18 @@
       "timestamp": "2026-07-28T14:57:00Z",
       "action": "self-planned",
       "notes": "WEATHER-3's useCurrentConditions already covers AC-1,3,4,5 (auto-refresh, keep-last-good, staleness). Found two real gaps requiring a fix, not just new tests: AC-7 (no reset on Location switch — stale data briefly shows under new Location's name) and AC-8 (manual-refresh-during-in-flight-auto-refresh race). Plan: extend useCurrentConditions with refresh() + location-change reset + request-sequencing guard; wire a Refresh control into CurrentConditionsCard. Ledger created, 8 rows pending."
+    },
+    {
+      "agent": "developer",
+      "state": "In Review",
+      "timestamp": "2026-07-28T15:10:00Z",
+      "action": "open-pr",
+      "notes": "All 8 AC done: 4 already satisfied by WEATHER-3 (referenced, not re-built), 1 needed only a new test, 3 needed real fixes (refresh(), request-id race guard, location-switch reset). 64/64 tests, 100% coverage. Pushed and opened PR #3.",
+      "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/3",
+      "pr_number": 3
     }
   ],
   "blocked": false,
   "blocked_reason": null,
-  "next_step": "TDD loop: extend useCurrentConditions.ts (refresh trigger, location-switch reset, race guard), then wire Refresh control into CurrentConditionsCard + CurrentConditionsContainer."
+  "next_step": "Human reviews PR #3 on GitHub. On approval/merge, transition to Done — that unblocks WEATHER-5 (failure-state messages), which also depends on WEATHER-3."
 }
