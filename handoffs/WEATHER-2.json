@@ -3,8 +3,8 @@
   "ticket_key": "WEATHER-2",
   "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/1",
   "title": "Weather App User can search for a location by city name so that they can view its current weather conditions",
-  "current_owner": "reviewer",
-  "current_state": "In Review",
+  "current_owner": null,
+  "current_state": "Done",
   "milestones": [
     {
       "agent": "coordinator",
@@ -42,9 +42,16 @@
       "notes": "Human provided repo link (github.com/saumyenpdeka-Td/weather_claude) and a GITHUB_TOKEN (set directly in the environment, never pasted into chat). Pushed main + dev/WEATHER-2-location-search, opened PR #1 via GitHub REST API. PROJECT.md.repo_url updated. Ready for human review.",
       "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/1",
       "pr_number": 1
+    },
+    {
+      "agent": "human",
+      "state": "Done",
+      "timestamp": "2026-07-28T07:07:15Z",
+      "action": "approve",
+      "notes": "PR #1 merged to main. Also fixed a Plane project-setup gap discovered this session: the Weather App Plane project only had stock states (Backlog/Todo/In Progress/Done/Cancelled) — Ready for Dev, In Review, Bug Open, and Needs Info were missing entirely, so tickets could never show correct status via the state field, only via handoff comments. Created all 4 missing states matching PROJECT.md.workflow_states; future tickets in this project will now transition correctly."
     }
   ],
   "blocked": false,
   "blocked_reason": null,
-  "next_step": "Human reviews PR #1 on GitHub. On approval/merge, transition to Done and unblock WEATHER-3 (current-conditions display), which depends on this story's ActiveLocationContext seam."
+  "next_step": "WEATHER-3 (current-conditions display) is unblocked — it depends on this story's ActiveLocationContext seam, now merged to main."
 }
