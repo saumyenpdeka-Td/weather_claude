@@ -1,0 +1,89 @@
+{
+  "task_id": "WEATHER-4",
+  "source": "coordinator",
+  "created_at": "2026-07-28T14:57:00Z",
+  "updated_at": "2026-07-28T15:02:00Z",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Scheduled auto-refresh fires every Refresh Interval without user action (AC-1).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::shows ready with converted display data after a successful fetch (AC-1)"],
+      "notes": "Already implemented and tested in WEATHER-3 — no new work needed for this AC.",
+      "last_updated": "2026-07-28T14:59:00Z"
+    },
+    {
+      "id": "REQ-2",
+      "text": "Manual refresh can be triggered at any time between scheduled refreshes (AC-2).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions", "CurrentConditionsCard", "CurrentConditionsContainer"],
+      "test_refs": ["useCurrentConditions.test.ts::exposes a refresh() that immediately re-fetches without waiting for the interval (AC-2)", "CurrentConditionsCard.test.tsx::wires the manual refresh control through to onRefresh (AC-2)", "CurrentConditionsContainer.test.tsx::re-fetches conditions when the manual refresh control is clicked (AC-2)"],
+      "notes": "\"NEW OBS\" control (frontend-design skill direction — station vernacular, not a generic refresh icon) wired end-to-end.",
+      "last_updated": "2026-07-28T15:07:00Z"
+    },
+    {
+      "id": "REQ-3",
+      "text": "A failed automatic refresh keeps the previous data visible and retries at the next scheduled interval (AC-3).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::keeps the last good conditions unchanged when a later refresh fails (AC-5)"],
+      "notes": "Already implemented and tested in WEATHER-3 — no new work needed for this AC.",
+      "last_updated": "2026-07-28T14:59:00Z"
+    },
+    {
+      "id": "REQ-4",
+      "text": "Below the staleness threshold, no stale marking is shown despite a failed refresh (AC-4).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::does not mark data as stale within the threshold (AC-7)"],
+      "notes": "Already implemented and tested in WEATHER-3 — no new work needed for this AC.",
+      "last_updated": "2026-07-28T14:59:00Z"
+    },
+    {
+      "id": "REQ-5",
+      "text": "Above 2x the Refresh Interval, data is marked stale (AC-5).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::marks data as stale once it exceeds 2x the Refresh Interval (AC-6)"],
+      "notes": "Already implemented and tested in WEATHER-3 — no new work needed for this AC.",
+      "last_updated": "2026-07-28T14:59:00Z"
+    },
+    {
+      "id": "REQ-6",
+      "text": "Stale marking clears once a subsequent refresh (auto or manual) succeeds (AC-6).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::clears the stale marking once a subsequent refresh succeeds (AC-6)"],
+      "notes": "Existing WEATHER-3 logic already satisfied this once tested — no code change needed, only the new test.",
+      "last_updated": "2026-07-28T15:02:00Z"
+    },
+    {
+      "id": "REQ-7",
+      "text": "Switching the active Location resets the refresh cycle for the new Location, independent of the prior Location's timing (AC-7).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::resets to loading and clears the previous Location's data when the active Location changes (AC-7)"],
+      "notes": "Fixed a real gap: hook now synchronously resets raw/status when location identity changes, before the new fetch resolves.",
+      "last_updated": "2026-07-28T15:02:00Z"
+    },
+    {
+      "id": "REQ-8",
+      "text": "A manual refresh triggered while an automatic refresh is in flight resolves to one consistent displayed result, not a race/duplicate update (AC-8).",
+      "origin": "acceptance-criterion",
+      "status": "done",
+      "component_ids": ["useCurrentConditions"],
+      "test_refs": ["useCurrentConditions.test.ts::resolves to the latest request when a manual refresh overlaps an in-flight auto refresh (AC-8)"],
+      "notes": "Fixed a real gap: added request-id sequencing so only the most recently issued fetch's result is ever applied.",
+      "last_updated": "2026-07-28T15:02:00Z"
+    }
+  ],
+  "coverage_summary": { "total": 8, "done": 8, "descoped": 0, "outstanding": 0 }
+}

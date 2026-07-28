@@ -28,6 +28,7 @@ describe("CurrentConditionsCard", () => {
         isStale={false}
         unitsSystem="metric"
         onUnitsChange={vi.fn()}
+        onRefresh={vi.fn()}
       />,
     );
 
@@ -45,6 +46,7 @@ describe("CurrentConditionsCard", () => {
         isStale={false}
         unitsSystem="metric"
         onUnitsChange={vi.fn()}
+        onRefresh={vi.fn()}
       />,
     );
 
@@ -68,6 +70,7 @@ describe("CurrentConditionsCard", () => {
         isStale={true}
         unitsSystem="metric"
         onUnitsChange={vi.fn()}
+        onRefresh={vi.fn()}
       />,
     );
 
@@ -87,11 +90,32 @@ describe("CurrentConditionsCard", () => {
         isStale={false}
         unitsSystem="metric"
         onUnitsChange={onUnitsChange}
+        onRefresh={vi.fn()}
       />,
     );
 
     screen.getByRole("button", { name: "°F" }).click();
 
     expect(onUnitsChange).toHaveBeenCalledWith("imperial");
+  });
+
+  it("wires the manual refresh control through to onRefresh (AC-2)", () => {
+    const onRefresh = vi.fn();
+    render(
+      <CurrentConditionsCard
+        locationName="Paris"
+        status="ready"
+        display={display}
+        fetchedAt={fetchedAt}
+        isStale={false}
+        unitsSystem="metric"
+        onUnitsChange={vi.fn()}
+        onRefresh={onRefresh}
+      />,
+    );
+
+    screen.getByRole("button", { name: "NEW OBS" }).click();
+
+    expect(onRefresh).toHaveBeenCalledTimes(1);
   });
 });

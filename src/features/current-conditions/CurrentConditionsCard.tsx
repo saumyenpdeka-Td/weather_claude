@@ -17,6 +17,7 @@ interface CurrentConditionsCardProps {
   isStale: boolean;
   unitsSystem: UnitsSystem;
   onUnitsChange: (unitsSystem: UnitsSystem) => void;
+  onRefresh: () => void;
 }
 
 /** The "station observation slip" current-conditions display (AC-1, 2, 4, 6, 7). */
@@ -28,6 +29,7 @@ export function CurrentConditionsCard({
   isStale,
   unitsSystem,
   onUnitsChange,
+  onRefresh,
 }: CurrentConditionsCardProps) {
   return (
     <div className={styles.slip}>
@@ -36,6 +38,9 @@ export function CurrentConditionsCard({
         <span className={styles.timestamp}>
           {fetchedAt ? `OBS ${formatObservedTime(fetchedAt)}` : "OBS —"}
         </span>
+        <button type="button" className={styles.newObs} onClick={onRefresh}>
+          NEW OBS
+        </button>
       </div>
 
       {status === "unavailable" && (

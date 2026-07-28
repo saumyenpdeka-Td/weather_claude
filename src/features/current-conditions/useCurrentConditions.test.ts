@@ -142,4 +142,92 @@ describe("useCurrentConditions", () => {
     expect(result.current.unitsSystem).toBe("imperial");
     expect(result.current.display?.temperatureUnit).toBe("°F");
   });
+
+  it("exposes a refresh() that immediately re-fetches without waiting for the interval (AC-2)", async () => {
+    mockedFetch.mockResolvedValueOnce(rawAt(1000));
+    const { result } = renderHook(() => useCurrentConditions(paris));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(mockedFetch).toHaveBeenCalledTimes(1);
+
+    mockedFetch.mockResolvedValueOnce(rawAt(2000));
+    await act(async () => {
+      result.current.refresh();
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    expect(mockedFetch).toHaveBeenCalledTimes(2);
+    expect(result.current.fetchedAt).toBe(2000);
+  });
+
+  it("clears the stale marking once a subsequent refresh succeeds (AC-6)", async () => {
+    mockedFetch.mockResolvedValueOnce(rawAt(Date.now()));
+    const { result } = renderHook(() => useCurrentConditions(paris));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    mockedFetch.mockRejectedValue(new Error("network down"));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(21 * 60 * 1000);
+    });
+    expect(result.current.isStale).toBe(true);
+
+    mockedFetch.mockResolvedValueOnce(rawAt(Date.now()));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(10 * 60 * 1000);
+    });
+
+    expect(result.current.isStale).toBe(false);
+  });
+
+  it("resets to loading and clears the previous Location's data when the active Location changes (AC-7)", async () => {
+    mockedFetch.mockResolvedValueOnce(rawAt(1000));
+    const { result, rerender } = renderHook(
+      ({ location }: { location: LocationMatch }) => useCurrentConditions(location),
+      { initialProps: { location: paris } },
+    );
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(result.current.status).toBe("ready");
+
+    const london: LocationMatch = {
+      id: 2,
+      name: "London",
+      latitude: 51.5,
+      longitude: -0.12,
+      country: "United Kingdom",
+    };
+    mockedFetch.mockReturnValueOnce(new Promise(() => {}));
+    rerender({ location: london });
+
+    expect(result.current.status).toBe("loading");
+    expect(result.current.display).toBeNull();
+  });
+
+  it("resolves to the latest request when a manual refresh overlaps an in-flight auto refresh (AC-8)", async () => {
+    let resolveFirst!: (value: CurrentConditionsRaw) => void;
+    let resolveSecond!: (value: CurrentConditionsRaw) => void;
+    mockedFetch.mockReturnValueOnce(new Promise((res) => (resolveFirst = res)));
+    const { result } = renderHook(() => useCurrentConditions(paris));
+
+    mockedFetch.mockReturnValueOnce(new Promise((res) => (resolveSecond = res)));
+    act(() => {
+      result.current.refresh();
+    });
+
+    await act(async () => {
+      resolveSecond(rawAt(2000));
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(result.current.fetchedAt).toBe(2000);
+
+    await act(async () => {
+      resolveFirst(rawAt(1000));
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(result.current.fetchedAt).toBe(2000);
+  });
 });
