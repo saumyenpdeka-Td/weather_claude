@@ -73,4 +73,27 @@ describe("CurrentConditionsContainer", () => {
     expect(await screen.findByText("18°C")).toBeInTheDocument();
     expect(screen.getByText("PARIS")).toBeInTheDocument();
   });
+
+  it("re-fetches conditions when the manual refresh control is clicked (AC-2)", async () => {
+    stubFetchOnce();
+    render(
+      <ActiveLocationProvider>
+        <Selector location={paris} />
+        <CurrentConditionsContainer />
+      </ActiveLocationProvider>,
+    );
+
+    await act(async () => {
+      screen.getByText("select").click();
+    });
+    await screen.findByText("18°C");
+    const fetchSpy = vi.mocked(fetch);
+    const callCountBefore = fetchSpy.mock.calls.length;
+
+    await act(async () => {
+      screen.getByRole("button", { name: "NEW OBS" }).click();
+    });
+
+    expect(fetchSpy.mock.calls.length).toBeGreaterThan(callCountBefore);
+  });
 });

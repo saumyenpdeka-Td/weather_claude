@@ -5,7 +5,7 @@ import { CurrentConditionsCard } from "./CurrentConditionsCard";
 /** Connects the active Location to current-conditions data and its display. */
 export function CurrentConditionsContainer() {
   const { activeLocation } = useActiveLocation();
-  const { status, display, fetchedAt, isStale, unitsSystem, setUnitsSystem } =
+  const { status, display, fetchedAt, isStale, unitsSystem, setUnitsSystem, refresh } =
     useCurrentConditions(activeLocation);
 
   if (!activeLocation) {
@@ -21,6 +21,7 @@ export function CurrentConditionsContainer() {
       isStale={isStale}
       unitsSystem={unitsSystem}
       onUnitsChange={setUnitsSystem}
+      onRefresh={refresh}
     />
   );
 }
