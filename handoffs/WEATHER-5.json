@@ -1,10 +1,10 @@
 {
   "task_id": "WEATHER-5",
   "ticket_key": "WEATHER-5",
-  "ticket_url": null,
+  "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/4",
   "title": "Weather App User can see a clear message when weather data can't be shown so that they understand why and what to do next",
-  "current_owner": "developer",
-  "current_state": "In Progress",
+  "current_owner": "reviewer",
+  "current_state": "In Review",
   "milestones": [
     {
       "agent": "coordinator",
@@ -19,9 +19,18 @@
       "timestamp": "2026-07-28T15:23:00Z",
       "action": "self-planned",
       "notes": "Plan: split weatherClient's single generic error into 4 typed errors (NetworkError, ProviderUnreachableError, ProviderError, NoDataError); useCurrentConditions exposes a failureType alongside status; CurrentConditionsCard renders 4 distinct messages, reusing WEATHER-4's existing retry (refresh()/NEW OBS) — no new retry mechanism needed. Mutual exclusivity with staleness is already structural (failure only when no data exists at all); will verify with an explicit test rather than assume. Ledger created, 7 rows pending."
+    },
+    {
+      "agent": "developer",
+      "state": "In Review",
+      "timestamp": "2026-07-28T15:47:00Z",
+      "action": "open-pr",
+      "notes": "All 7 AC done. 88/88 tests, 100% coverage. Pushed and opened PR #4 — last story in the WEATHER-1 Feature.",
+      "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/4",
+      "pr_number": 4
     }
   ],
   "blocked": false,
   "blocked_reason": null,
-  "next_step": "TDD loop: weatherClient.ts (typed errors), useCurrentConditions.ts (failureType), CurrentConditionsCard.tsx (4 distinct messages)."
+  "next_step": "Human reviews PR #4 on GitHub. On approval/merge, transition to Done — that closes out the entire WEATHER-1 Feature (all 4 stories merged)."
 }
