@@ -4,7 +4,7 @@
 # === Project identity ===
 project_name: weather-app
 project_owner: saumyen.p.deka@triedatum.com
-repo_url:                      # TBD — repo not yet created
+repo_url: https://github.com/saumyenpdeka-Td/weather_claude
 
 # === Ticket system (see tdm-aisdlc-shared/.claude/rules/ticketing.md) ===
 ticket_system: plane         # jira | github | linear | azure-devops | plane | none

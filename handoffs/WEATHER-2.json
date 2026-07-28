@@ -1,10 +1,10 @@
 {
   "task_id": "WEATHER-2",
   "ticket_key": "WEATHER-2",
-  "ticket_url": null,
+  "ticket_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/1",
   "title": "Weather App User can search for a location by city name so that they can view its current weather conditions",
-  "current_owner": "developer",
-  "current_state": "Blocked",
+  "current_owner": "reviewer",
+  "current_state": "In Review",
   "milestones": [
     {
       "agent": "coordinator",
@@ -33,9 +33,18 @@
       "timestamp": "2026-07-27T16:01:00Z",
       "action": "pr-blocked-no-remote",
       "notes": "Cannot open a PR: PROJECT.md.repo_url is still 'TBD — repo not yet created', no git remote is configured, and gh CLI isn't installed in this environment. Human chose (2026-07-27) to leave the branch local for now rather than provision a repo mid-session. Code is complete and ready — this is a hosting gap, not unfinished work."
+    },
+    {
+      "agent": "developer",
+      "state": "In Review",
+      "timestamp": "2026-07-28T06:17:33Z",
+      "action": "open-pr",
+      "notes": "Human provided repo link (github.com/saumyenpdeka-Td/weather_claude) and a GITHUB_TOKEN (set directly in the environment, never pasted into chat). Pushed main + dev/WEATHER-2-location-search, opened PR #1 via GitHub REST API. PROJECT.md.repo_url updated. Ready for human review.",
+      "pr_url": "https://github.com/saumyenpdeka-Td/weather_claude/pull/1",
+      "pr_number": 1
     }
   ],
-  "blocked": true,
-  "blocked_reason": "No GitHub (or other) remote configured for weather_app and no gh CLI available — cannot open a PR. All 7 acceptance criteria are implemented, tested (28/28 green, 100% coverage), and committed locally on dev/WEATHER-2-location-search.",
-  "next_step": "Once a remote repo exists: set PROJECT.md.repo_url, add the git remote, push dev/WEATHER-2-location-search, open a PR titled 'feat(location-search): implement WEATHER-2' with the component manifest below, transition to In Review, and complete handoff-write. No further implementation work is needed — this is purely a hosting/PR step."
+  "blocked": false,
+  "blocked_reason": null,
+  "next_step": "Human reviews PR #1 on GitHub. On approval/merge, transition to Done and unblock WEATHER-3 (current-conditions display), which depends on this story's ActiveLocationContext seam."
 }
