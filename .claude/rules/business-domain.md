@@ -19,10 +19,11 @@ Terminology here must be used verbatim in stories.
 
 | Rule | Value | Notes |
 | --- | --- | --- |
-| Refresh Interval (default) | 10 minutes | Configurable range: 1–60 minutes. Confirmed default pending stakeholder sign-off — see ANALYST NOTES in the handoff. |
+| Refresh Interval (default) | 10 minutes | Configurable range: 1–60 minutes. Stakeholder-confirmed 2026-07-28. |
 | Location search scope | Global — any city or coordinate pair resolvable by the Weather Provider | "All over the world" resolves to provider coverage, not a hand-maintained list. |
 | Stale data threshold | Data older than 2× the Refresh Interval is flagged "stale" in the UI | Prevents silently showing outdated conditions if a refresh fails. |
-| Default units | Metric | User can switch to Imperial; app remembers the last selection. |
+| Default units | Metric | User can switch to Imperial; app remembers the last selection. Stakeholder-confirmed 2026-07-28. |
+| Forecast scope | Current conditions only — no multi-day forecast | Stakeholder-confirmed 2026-07-28. A future forecast feature would be a new story, not a change to WEATHER-1..5. |
 
 ## State Machines
 
