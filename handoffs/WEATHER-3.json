@@ -1,0 +1,27 @@
+{
+  "task_id": "WEATHER-3",
+  "ticket_key": "WEATHER-3",
+  "ticket_url": null,
+  "title": "Weather App User can view real-time current weather conditions for their selected location so that they know the present conditions there",
+  "current_owner": "developer",
+  "current_state": "In Progress",
+  "milestones": [
+    {
+      "agent": "coordinator",
+      "state": "Ready for Dev",
+      "timestamp": "2026-07-27T13:49:14Z",
+      "action": "story-decomposed",
+      "notes": "Handoff comment posted on Plane WEATHER-3. 8 testable AC, size M. Depends on WEATHER-2 (location search) for an active Location."
+    },
+    {
+      "agent": "developer",
+      "state": "In Progress",
+      "timestamp": "2026-07-28T08:22:00Z",
+      "action": "self-planned",
+      "notes": "Self-planned 5 components: weatherClient (Open-Meteo current-conditions fetch, always metric), unitsConversion (pure conversion, no refetch on toggle), useCurrentConditions (staleness/last-good-data/units-default logic), CurrentConditionsCard + UnitsToggle (presentational, 'station observation slip' design direction via frontend-design skill). Requirements ledger created, 8 rows pending. Refresh Interval (10 min) and Units default (Metric) proceeding as documented assumptions from business-domain.md, per WEATHER-2 precedent."
+    }
+  ],
+  "blocked": false,
+  "blocked_reason": null,
+  "next_step": "TDD loop through 5 planned components in dependency order: weatherClient, unitsConversion, useCurrentConditions, UnitsToggle, CurrentConditionsCard."
+}
